@@ -1,40 +1,47 @@
 package de.unibayreuth.se.taskboard;
 
 import de.unibayreuth.se.taskboard.business.domain.Task;
+import de.unibayreuth.se.taskboard.business.domain.TaskStatus;
+import de.unibayreuth.se.taskboard.business.domain.User;
 import de.unibayreuth.se.taskboard.business.ports.TaskService;
+import de.unibayreuth.se.taskboard.business.ports.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * Load initial data into the list via the list service from the business layer.
- */
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+@Profile("dev")
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@Profile("dev")
 class LoadInitialData implements InitializingBean {
+
     private final TaskService taskService;
-    // TODO: Fix this class after resolving the other TODOs.
-    //private final UserService userService;
+    private final UserService userService;
 
     @Override
     public void afterPropertiesSet() {
         log.info("Deleting existing data...");
-        //userService.clear();
         taskService.clear();
+        userService.clear();
+
         log.info("Loading initial data...");
-        //List<User> users = TestFixtures.createUsers(userService);
-        List<Task> tasks = TestFixtures.createTasks(taskService);
-        Task task1 = tasks.getFirst();
-        //task1.setAssigneeId(users.getFirst().getId());
-        taskService.upsert(task1);
-        Task task2 = tasks.getLast();
-        //task2.setAssigneeId(users.getLast().getId());
-        taskService.upsert(task2);
+        // it creates the same users
+        List<User> users = TestFixtures.createUsers(userService);
+        // Create first task and assign to Alice
+        Task t1 = new Task("Task 1", "Description 1");
+        t1.setStatus(TaskStatus.TODO);
+        t1.setAssigneeId(users.get(0).getId());
+        taskService.create(t1);
+        // Create second task and assign to Bob
+        Task t2 = new Task("Task 2", "Description 2");
+        t2.setStatus(TaskStatus.TODO);
+        t2.setAssigneeId(users.get(1).getId());
+        taskService.create(t2);
+
+        log.info("Dev data loaded.");
     }
 }
