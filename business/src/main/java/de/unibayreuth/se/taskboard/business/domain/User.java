@@ -15,6 +15,13 @@ import java.util.UUID;
  */
 @Data
 public class User implements Serializable {
+        //default one i created
+        public User() {
+        }
+        // if i want to create with the name
+        public User(@NonNull String name) {
+        this.name = name;
+    }
         @Nullable
         private UUID id; // null when user is not persisted yet
         @NonNull
