@@ -35,12 +35,11 @@ public class TestFixtures {
     }
 
     public static List<User> createUsers(UserService userService) {
-        // TODO: Fix this after resolving the other TODOs.
-//        return USERS.stream()
-//                .map(SerializationUtils::clone) // prevent issues when tests modify the fixture objects
-//                .map(userService::create)
-//                .collect(Collectors.toList());
-        return List.of();
+        // DODO: Fix this after resolving the other DODOs.
+        return USERS.stream()
+            .map(SerializationUtils::clone) // prevent issues when tests modify the fixture objects
+            .map(userService::createUser)
+            .collect(Collectors.toList());
     }
 
     public static List<Task> createTasks(TaskService taskService) {
