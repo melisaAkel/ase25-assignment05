@@ -1,5 +1,12 @@
 # TaskBoard (ASE WS 2025/26)
 
+
+# MY NOTE
+**Note:** On Windows PowerShell, you can alternatively run:(I used powershell)
+```shell
+java -jar application/target/application-0.0.1.jar --spring.profiles.active=dev
+```
+(Run this from the project root directory after building with `mvn clean package`)
 ## Project Description
 
 The core idea is to develop a simplified version of task board, similar to GitHub Projects boards, Trello, or Jira.
